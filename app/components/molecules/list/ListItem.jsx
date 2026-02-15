@@ -5,17 +5,12 @@ import { v } from "@/app/styles/variables";
 import { useState } from "react";
 import { AppDate } from "@/app/lib/AppDate";
 
-export const ListItem = () => {
-  const [items, setItems] = useState([
-    { name: "Task1", deadline: new AppDate().getDateInXMonth(1) },
-    { name: "Task2", deadline: new AppDate().getDateInXMonth(2) },
-    { name: "Task3", deadline: new AppDate().getDateInXMonth(3) },
-  ]);
-
+export const ListItem = (props) => {
+  const { items } = props;
   return (
     <>
       {items.map((item) => (
-        <StyledListItem>
+        <StyledListItem key={item.id}>
           <StyledListItemColCheck>
             <CheckIconCol />
           </StyledListItemColCheck>

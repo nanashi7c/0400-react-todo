@@ -4,7 +4,8 @@ import { ListHeader } from "../molecules/list/ListHeader";
 import { CheckIcon } from "../atoms/icon/CheckIcon";
 import { ListItem } from "../molecules/list/ListItem";
 
-export const List = () => {
+export const List = (props) => {
+  const { items } = props;
   return (
     <StyledList>
       <ListHeader>完了タスクを表示</ListHeader>
@@ -16,7 +17,7 @@ export const List = () => {
       />
       <StyledListContainer>
         <li>
-          <ListItem/>
+          <ListItem items={items} />
         </li>
       </StyledListContainer>
     </StyledList>

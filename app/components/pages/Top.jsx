@@ -5,33 +5,61 @@ import { List } from "../organism/List";
 import { useState } from "react";
 import { AppDate } from "@/app/lib/AppDate";
 
-//TODO
 export const Top = () => {
-  // const [items, setItems] = useState([
-  //   { name: "Task1", deadline: new AppDate().getDateInXMonth(1) },
-  //   { name: "Task2", deadline: new AppDate().getDateInXMonth(2) },
-  //   { name: "Task3", deadline: new AppDate().getDateInXMonth(3) },
-  // ]);
+  const [items, setItems] = useState([
+    {
+      id: crypto.randomUUID(),
+      name: "Task1",
+      deadline: new AppDate().getDateInXMonth(1),
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Task2",
+      deadline: new AppDate().getDateInXMonth(2),
+    },
+    {
+      id: crypto.randomUUID(),
+      name: "Task3",
+      deadline: new AppDate().getDateInXMonth(3),
+    },
+  ]);
 
-  // const [name, setName] = useState("");
-  // const [deadline, setDeadline] = useState("");
+  const [name, setName] = useState("");
+  const [deadline, setDeadline] = useState("");
 
-  // const handleAddItem = () => {
-  //   if (!name.trim()) {
-  //     alert("タスク名を入力してください");
-  //     return;
-  //   }
+  const handleAddItem = () => {
+    const nameValue = name.trim();
+    if (!nameValue) {
+      alert("タスク名を入力してください");
+      return;
+    }
 
-  //     const deadline = AppDate.parse(data.get('deadline'))
-  //   // if(!)
-  // };
+    const parsedDeadline = AppDate.parse(deadline);
+    if (!parsedDeadline) {
+      alert("期限日を入力してください。");
+      return;
+    }
+
+    setItems((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), name: nameValue, deadline: parsedDeadline },
+    ]);
+    setName("");
+    setDeadline("");
+  };
 
   return (
     <>
       <StyledContent>
         <Header />
-        <Form />
-        <List />
+        <Form
+          name={name}
+          setName={setName}
+          deadline={deadline}
+          setDeadline={setDeadline}
+          handleAddItem={handleAddItem}
+        />
+        <List items={items} />
       </StyledContent>
     </>
   );

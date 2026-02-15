@@ -2,7 +2,6 @@ import { v } from "@/app/styles/variables";
 import styled from "styled-components";
 
 export const InputField = (props) => {
-  // const { children } = props;
   return <StyledField {...props}></StyledField>;
 };
 

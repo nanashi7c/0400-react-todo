@@ -4,9 +4,19 @@ import { InputLabel } from "../atoms/input/InputLabel";
 import { InputField } from "../atoms/input/InputField";
 import { v } from "@/app/styles/variables";
 
-export const Form = () => {
+export const Form = (props) => {
+  const { name, setName, deadline, setDeadline, handleAddItem } = props;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAddItem();
+  };
+
+  const handleNameChange = (e) => setName(e.target.value);
+  const handleDeadlineChange = (e) => setDeadline(e.target.value);
+
   return (
-    <StyledForm>
+    <StyledForm onSubmit={handleSubmit}>
       <StyledInputRow>
         <StyledNameInput>
           <InputLabel>タスク</InputLabel>
@@ -15,12 +25,17 @@ export const Form = () => {
             name="name"
             placeholder="タスク名を入力"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleNameChange}
           ></InputField>
         </StyledNameInput>
         <StyledDeadlineInput>
           <InputLabel>期限日</InputLabel>
-          <InputField type="date" name="deadline"></InputField>
+          <InputField
+            type="date"
+            name="deadline"
+            value={deadline}
+            onChange={handleDeadlineChange}
+          ></InputField>
         </StyledDeadlineInput>
       </StyledInputRow>
       <FormFooter />
