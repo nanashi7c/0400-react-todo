@@ -1,7 +1,8 @@
 import { v } from "@/app/styles/variables";
+import { memo } from "react";
 import styled from "styled-components";
 
-export const CheckIconCol = (props) => {
+export const CheckIconCol = memo((props) => {
   const { itemId, checked, onToggleCompleted } = props;
 
   const handleChange = (e) => {
@@ -14,7 +15,7 @@ export const CheckIconCol = (props) => {
       <StyledIcon></StyledIcon>
     </StyledLabel>
   );
-};
+});
 
 const StyledIcon = styled.i.attrs({
   className: "icon--check fa-solid fa-check",
@@ -30,15 +31,6 @@ const StyledIcon = styled.i.attrs({
   pointer-events: none;
 `;
 
-// const StyledIcon = styled.i.attrs({
-//   className: "fa-solid fa-check",
-//   "aria-hidden": "true",
-// })`
-//   cursor: pointer;
-//   color: ${v.fontColorWeak};
-// `;
-
-//TODO：チェックボックスが上手く表示できない（消えない）
 const StyledLabel = styled.label`
   border: 1px solid ${v.borderColorCheckbox};
   border-radius: 50%;
@@ -54,7 +46,6 @@ const StyledLabel = styled.label`
     opacity: 0;
     color: #fff;
   }
-  // :has(input:checked) {
   &:has(input:checked) {
     background: ${v.primaryColor};
   }
@@ -69,19 +60,8 @@ const StyledInput = styled.input`
 
   opacity: 0;
   cursor: pointer;
-  // &:checked + .icon--check {
   &:checked + ${StyledIcon} {
     opacity: 1;
     transform: scale(1);
   }
 `;
-// const StyledInput = styled.input`
-//   border: 0;
-//   position: absolute;
-//   inset: 0;
-//   opacity: 0;
-//   cursor: pointer;
-//   &:checked + .icon--check {
-//     opacity: 1;
-//   }
-// `;

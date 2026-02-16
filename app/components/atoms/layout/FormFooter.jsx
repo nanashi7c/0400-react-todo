@@ -1,15 +1,10 @@
 import styled from "styled-components";
 import { PrimaryButton } from "../button/PrimaryButton";
 
-const onClickAdd = () => {
-setItems()
-
-};
-
 export const FormFooter = () => {
   return (
     <StyledFormFooter>
-      <PrimaryButton onClick={onClickAdd}>追加</PrimaryButton>
+      <PrimaryButton>追加</PrimaryButton>
     </StyledFormFooter>
   );
 };

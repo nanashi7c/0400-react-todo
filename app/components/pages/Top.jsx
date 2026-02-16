@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Header } from "../atoms/layout/Header";
 import { Form } from "../organism/Form";
 import { List } from "../organism/List";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AppDate } from "@/app/lib/AppDate";
 
 export const Top = () => {
@@ -34,7 +34,7 @@ export const Top = () => {
   const [name, setName] = useState("");
   const [deadline, setDeadline] = useState("");
 
-  const handleAddItem = () => {
+  const handleAddItem = useCallback(() => {
     const nameValue = name.trim();
     if (!nameValue) {
       alert("タスク名を入力してください");
@@ -59,14 +59,14 @@ export const Top = () => {
     ]);
     setName("");
     setDeadline("");
-  };
+  }, [name, deadline]);
 
-  const handleDeleteItem = (id) => {
+  const handleDeleteItem = useCallback((id) => {
     if (!window.confirm("このタスクを削除しますか？")) return;
     setItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  }, []);
 
-  const handleToggleCompleted = (id, checked) => {
+  const handleToggleCompleted = useCallback((id, checked) => {
     if (checked && !isShowCompleted) {
       setItems((prev) =>
         prev.map((item) =>
@@ -92,23 +92,7 @@ export const Top = () => {
           : item,
       ),
     );
-
-    // if (checked) {
-    //   setTimeout(() => {
-    //     setItems((prev) =>
-    //       prev.map((item) =>
-    //         item.id === id ? { ...item, isCompleted: checked } : item,
-    //       ),
-    //     );
-    //   }, 800);
-    // } else {
-    //   setItems((prev) =>
-    //     prev.map((item) =>
-    //       item.id === id ? { ...item, isCompleted: checked } : item,
-    //     ),
-    //   );
-    // }
-  };
+  },[isShowCompleted]);
 
   return (
     <>

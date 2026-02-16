@@ -1,0 +1,87 @@
+import { v } from "@/app/styles/variables";
+import { memo } from "react";
+import styled from "styled-components";
+import { CheckIconCol } from "./Icon/CheckIconCol";
+import { TrashIconCol } from "./Icon/TrashIconCol";
+
+export const ListRow = memo(function ListRow(props) {
+  const { item, onDeleteItem, onToggleCompleted } = props;
+
+  return (
+    <StyledListItem
+      $isFadingOut={item.isFadingOut}
+    >
+      <StyledListItemColCheck>
+        <CheckIconCol
+          itemId={item.id}
+          checked={item.isCompleted}
+          onToggleCompleted={onToggleCompleted}
+        />
+      </StyledListItemColCheck>
+
+      <StyledListItemColName>{item.name}</StyledListItemColName>
+
+      <StyledListItemColDeadline>
+        {item.deadline.toString()}
+      </StyledListItemColDeadline>
+      <StyledListItemColTrash>
+        <TrashIconCol itemId={item.id} onDeleteItem={onDeleteItem} />
+      </StyledListItemColTrash>
+    </StyledListItem>
+  );
+});
+
+const StyledListItem = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid ${v.borderColor};
+  transition: opacity 0.8s ease;
+  opacity: ${(props) => (props.$isFadingOut ? 0 : 1)};
+`;
+const StyledListItemCol = styled.div`
+  box-sizing: border-box;
+  flex: 1;
+  border-right: 1px solid ${v.borderColor};
+  padding: 16px;
+`;
+const StyledListItemColCheck = styled(StyledListItemCol)`
+  display: flex;
+  justify-content: center;
+`;
+const StyledListItemColName = styled(StyledListItemCol)`
+  flex: 4;
+  cursor: pointer;
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid ${v.borderColor};
+    border-radius: 4px;
+    padding: 8px;
+    outline: none;
+    &:focus-visible {
+      outline: 3px solid #666;
+    }
+  }
+`;
+const StyledListItemColDeadline = styled(StyledListItemCol)`
+  cursor: pointer;
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid ${v.borderColor};
+    border-radius: 4px;
+    padding: 8px;
+    outline: none;
+    &:focus-visible {
+      outline: 3px solid #666;
+    }
+  }
+`;
+const StyledListItemColTrash = styled(StyledListItemCol)`
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+`;
