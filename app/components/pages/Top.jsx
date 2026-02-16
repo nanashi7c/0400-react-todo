@@ -11,19 +11,26 @@ export const Top = () => {
       id: crypto.randomUUID(),
       name: "Task1",
       deadline: new AppDate().getDateInXMonth(1),
+      isCompleted: false,
+      isFadingOut: false,
     },
     {
       id: crypto.randomUUID(),
       name: "Task2",
       deadline: new AppDate().getDateInXMonth(2),
+      isCompleted: false,
+      isFadingOut: false,
     },
     {
       id: crypto.randomUUID(),
       name: "Task3",
       deadline: new AppDate().getDateInXMonth(3),
+      isCompleted: false,
+      isFadingOut: false,
     },
   ]);
 
+  const [isShowCompleted, setIsShowCompleted] = useState(false);
   const [name, setName] = useState("");
   const [deadline, setDeadline] = useState("");
 
@@ -42,10 +49,65 @@ export const Top = () => {
 
     setItems((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), name: nameValue, deadline: parsedDeadline },
+      {
+        id: crypto.randomUUID(),
+        name: nameValue,
+        deadline: parsedDeadline,
+        isCompleted: false,
+        isFadingOut: false,
+      },
     ]);
     setName("");
     setDeadline("");
+  };
+
+  const handleDeleteItem = (id) => {
+    if (!window.confirm("このタスクを削除しますか？")) return;
+    setItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleToggleCompleted = (id, checked) => {
+    if (checked && !isShowCompleted) {
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? { ...item, isFadingOut: true, isCompleted: true }
+            : item,
+        ),
+      );
+      setTimeout(() => {
+        setItems((prev) =>
+          prev.map((item) =>
+            item.id === id ? { ...item, isFadingOut: false } : item,
+          ),
+        );
+      }, 800);
+      return;
+    }
+
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, isCompleted: checked, isFadingOut: false }
+          : item,
+      ),
+    );
+
+    // if (checked) {
+    //   setTimeout(() => {
+    //     setItems((prev) =>
+    //       prev.map((item) =>
+    //         item.id === id ? { ...item, isCompleted: checked } : item,
+    //       ),
+    //     );
+    //   }, 800);
+    // } else {
+    //   setItems((prev) =>
+    //     prev.map((item) =>
+    //       item.id === id ? { ...item, isCompleted: checked } : item,
+    //     ),
+    //   );
+    // }
   };
 
   return (
@@ -59,7 +121,13 @@ export const Top = () => {
           setDeadline={setDeadline}
           handleAddItem={handleAddItem}
         />
-        <List items={items} />
+        <List
+          items={items}
+          onDeleteItem={handleDeleteItem}
+          onToggleCompleted={handleToggleCompleted}
+          isShowCompleted={isShowCompleted}
+          setIsShowCompleted={setIsShowCompleted}
+        />
       </StyledContent>
     </>
   );

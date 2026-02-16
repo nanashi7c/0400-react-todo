@@ -1,14 +1,25 @@
 import styled from "styled-components";
 import { ListTtl } from "../molecules/list/ListTtl";
 import { ListHeader } from "../molecules/list/ListHeader";
-import { CheckIcon } from "../atoms/icon/CheckIcon";
 import { ListItem } from "../molecules/list/ListItem";
 
 export const List = (props) => {
-  const { items } = props;
+  const {
+    items,
+    onDeleteItem,
+    onToggleCompleted,
+    isShowCompleted,
+    setIsShowCompleted,
+  } = props;
+
   return (
     <StyledList>
-      <ListHeader>完了タスクを表示</ListHeader>
+      <ListHeader
+        isShowCompleted={isShowCompleted}
+        setIsShowCompleted={setIsShowCompleted}
+      >
+        完了タスクを表示
+      </ListHeader>
       <ListTtl
         checkbox={"\u00A0"}
         name="タスク"
@@ -17,7 +28,12 @@ export const List = (props) => {
       />
       <StyledListContainer>
         <li>
-          <ListItem items={items} />
+          <ListItem
+            items={items}
+            isShowCompleted={isShowCompleted}
+            onDeleteItem={onDeleteItem}
+            onToggleCompleted={onToggleCompleted}
+          />
         </li>
       </StyledListContainer>
     </StyledList>

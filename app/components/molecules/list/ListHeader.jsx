@@ -2,11 +2,14 @@ import styled from "styled-components";
 import { Checkbox } from "../../atoms/input/Checkbox";
 
 export const ListHeader = (props) => {
-  const { children } = props;
+  const { children, isShowCompleted, setIsShowCompleted } = props;
   return (
     <StyledListHeader>
       <label>
-        <Checkbox />
+        <Checkbox
+          isShowCompleted={isShowCompleted}
+          setIsShowCompleted={setIsShowCompleted}
+        />
         {children}
       </label>
     </StyledListHeader>

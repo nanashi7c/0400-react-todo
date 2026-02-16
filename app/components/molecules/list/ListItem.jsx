@@ -2,17 +2,30 @@ import styled from "styled-components";
 import { CheckIconCol } from "./Icon/CheckIconCol";
 import { TrashIconCol } from "./Icon/TrashIconCol";
 import { v } from "@/app/styles/variables";
-import { useState } from "react";
-import { AppDate } from "@/app/lib/AppDate";
 
 export const ListItem = (props) => {
-  const { items } = props;
+  const { items, isShowCompleted, onDeleteItem, onToggleCompleted } = props;
+  const visibleItems = [...items].filter(
+    (item) => isShowCompleted || !item.isCompleted || item.isFadingOut,
+  );
+  const sortedItems = [...visibleItems].sort(
+    (a, b) => a.deadline.getTime() - b.deadline.getTime(),
+  );
   return (
     <>
-      {items.map((item) => (
-        <StyledListItem key={item.id}>
+      {sortedItems.map((item) => (
+        <StyledListItem
+          key={item.id}
+          $isCompleted={item.isCompleted}
+          $isShowCompleted={isShowCompleted}
+          $isFadingOut={item.isFadingOut}
+        >
           <StyledListItemColCheck>
-            <CheckIconCol />
+            <CheckIconCol
+              itemId={item.id}
+              checked={item.isCompleted}
+              onToggleCompleted={onToggleCompleted}
+            />
           </StyledListItemColCheck>
 
           <StyledListItemColName>{item.name}</StyledListItemColName>
@@ -21,7 +34,7 @@ export const ListItem = (props) => {
             {item.deadline.toString()}
           </StyledListItemColDeadline>
           <StyledListItemColTrash>
-            <TrashIconCol />
+            <TrashIconCol itemId={item.id} onDeleteItem={onDeleteItem} />
           </StyledListItemColTrash>
         </StyledListItem>
       ))}
@@ -35,6 +48,9 @@ const StyledListItem = styled.div`
   width: 100%;
   border-bottom: 1px solid ${v.borderColor};
   transition: opacity 0.8s ease;
+  opacity: ${(props) =>
+    // props.$isCompleted && !props.$isShowCompleted ? 0 : 1};
+    props.$isFadingOut ? 0 : 1};
 `;
 const StyledListItemCol = styled.div`
   box-sizing: border-box;

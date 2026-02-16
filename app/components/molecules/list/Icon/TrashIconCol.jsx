@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
-export const TrashIconCol = () => {
-  return <StyledTrash type="checkbox"></StyledTrash>;
+export const TrashIconCol = (props) => {
+  const { itemId, onDeleteItem } = props;
+
+  const handleClick = () => {
+    onDeleteItem(itemId);
+  };
+  return <StyledTrash type="checkbox" onClick={handleClick}></StyledTrash>;
 };
 
 const StyledTrash = styled.i.attrs({
