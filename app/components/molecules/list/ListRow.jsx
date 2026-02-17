@@ -6,14 +6,7 @@ import { TrashIconCol } from "./Icon/TrashIconCol";
 import { AppDate } from "@/app/lib/AppDate";
 
 export const ListRow = memo(function ListRow(props) {
-  const {
-    item,
-    onDeleteItem,
-    onToggleCompleted,
-    onUpdateItem,
-    blockNextEditStart,
-    shouldBlockEditStart,
-  } = props;
+  const { item, onDeleteItem, onToggleCompleted, onUpdateItem } = props;
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDeadline, setIsEditingDeadline] = useState(false);
@@ -42,19 +35,18 @@ export const ListRow = memo(function ListRow(props) {
   }, [isEditingDeadline]);
 
   const startEditName = useCallback(() => {
-    if (isEditingName || isEditingDeadline || shouldBlockEditStart()) return;
+    if (isEditingName || isEditingDeadline) return;
     setDraftName(item.name);
     setIsEditingName(true);
-  }, [item.name, isEditingName, isEditingDeadline, shouldBlockEditStart]);
+  }, [item.name, isEditingName, isEditingDeadline]);
 
   const startEditDeadline = useCallback(() => {
-    if (isEditingName || isEditingDeadline || shouldBlockEditStart()) return;
+    if (isEditingName || isEditingDeadline) return;
     setDraftDeadline(item.deadline.toString());
     setIsEditingDeadline(true);
-  }, [item.deadline, isEditingName, isEditingDeadline, shouldBlockEditStart]);
+  }, [item.deadline, isEditingName, isEditingDeadline]);
 
   const commitName = useCallback(() => {
-    blockNextEditStart();
     const nextName = draftName.trim();
     if (!nextName) {
       setDraftName(item.name);
@@ -66,10 +58,9 @@ export const ListRow = memo(function ListRow(props) {
       setDraftName(nextName);
     }
     setIsEditingName(false);
-  }, [blockNextEditStart, draftName, item.id, item.name, onUpdateItem]);
+  }, [draftName, item.id, item.name, onUpdateItem]);
 
   const commitDeadline = useCallback(() => {
-    blockNextEditStart();
     const parsed = AppDate.parse(draftDeadline);
     if (!parsed) {
       setDraftDeadline(item.deadline.toString());
@@ -77,7 +68,7 @@ export const ListRow = memo(function ListRow(props) {
       return;
     }
     setIsEditingDeadline(false);
-  }, [blockNextEditStart, draftDeadline, item.deadline, item.id, onUpdateItem]);
+  }, [draftDeadline, item.deadline, item.id, onUpdateItem]);
 
   return (
     <StyledListItem $isFadingOut={item.isFadingOut}>
