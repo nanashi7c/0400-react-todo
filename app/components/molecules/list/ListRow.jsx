@@ -22,12 +22,6 @@ export const ListRow = memo(function ListRow(props) {
     }
   }, [isEditingName]);
 
-  // useEffect(() => {
-  //   if (isEditingDeadline) {
-  //     deadlineInputRef.current?.focus();
-  //   }
-  // }, [isEditingName]);
-
   useEffect(() => {
     if (isEditingDeadline) {
       deadlineInputRef.current?.focus();
