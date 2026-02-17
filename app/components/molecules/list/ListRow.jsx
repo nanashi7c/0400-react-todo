@@ -67,8 +67,36 @@ export const ListRow = memo(function ListRow(props) {
       setIsEditingDeadline(false);
       return;
     }
+
+    const next = parsed.toString();
+    const prev = item.deadline.toString();
+    if (next !== prev) {
+      onUpdateItem(item.id, { deadline: parsed });
+      setDraftDeadline(next);
+    }
+
     setIsEditingDeadline(false);
   }, [draftDeadline, item.deadline, item.id, onUpdateItem]);
+
+  const guardSwitchFromName = useCallback(
+    (e) => {
+      if (!isEditingName) return;
+      e.preventDefault();
+      e.stopPropagation();
+      commitName();
+    },
+    [isEditingName, commitName],
+  );
+
+  const guardSwitchFromDeadline = useCallback(
+    (e) => {
+      if (!isEditingDeadline) return;
+      e.preventDefault();
+      e.stopPropagation();
+      commitDeadline();
+    },
+    [isEditingDeadline, commitDeadline],
+  );
 
   return (
     <StyledListItem $isFadingOut={item.isFadingOut}>
@@ -80,7 +108,10 @@ export const ListRow = memo(function ListRow(props) {
         />
       </StyledListItemColCheck>
 
-      <StyledListItemColName onClick={startEditName}>
+      <StyledListItemColName
+        onClick={startEditName}
+        onMouseDownCapture={guardSwitchFromDeadline}
+      >
         {isEditingName ? (
           <input
             ref={nameInputRef}
@@ -95,7 +126,10 @@ export const ListRow = memo(function ListRow(props) {
         )}
       </StyledListItemColName>
 
-      <StyledListItemColDeadline onClick={startEditDeadline}>
+      <StyledListItemColDeadline
+        onClick={startEditDeadline}
+        onMouseDownCapture={guardSwitchFromName}
+      >
         {isEditingDeadline ? (
           <input
             ref={deadlineInputRef}
