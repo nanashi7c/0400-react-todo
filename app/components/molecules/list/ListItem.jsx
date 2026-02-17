@@ -10,17 +10,17 @@ export const ListItem = (props) => {
     onUpdateItem,
   } = props;
 
-  const suppressNextEditRef = useRef(false);
+  const supressNextEditStartRef = useRef(false);
 
   const blockNextEditStart = useCallback(() => {
-    suppressNextEditRef.current = true;
+    supressNextEditStartRef.current = true;
     setTimeout(() => {
-      suppressNextEditRef.current = false;
+      supressNextEditStartRef.current = false;
     }, 0);
   }, []);
 
   const shouldBlockEditStart = useCallback(
-    () => suppressNextEditRef.current,
+    () => supressNextEditStartRef.current,
     [],
   );
 
