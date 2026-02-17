@@ -1,16 +1,105 @@
 import { v } from "@/app/styles/variables";
-import { memo } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { CheckIconCol } from "./Icon/CheckIconCol";
 import { TrashIconCol } from "./Icon/TrashIconCol";
+import { AppDate } from "@/app/lib/AppDate";
 
 export const ListRow = memo(function ListRow(props) {
-  const { item, onDeleteItem, onToggleCompleted } = props;
+  const { item, onDeleteItem, onToggleCompleted, onUpdateItem } = props;
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingDeadline, setIsEditingDeadline] = useState(false);
+  const [draftName, setDraftName] = useState(item.name);
+  const [draftDeadline, setDraftDeadline] = useState(item.deadline.toString());
+  const nameInputRef = useRef(null);
+  const deadlineInputRef = useRef(null);
+
+  useEffect(() => {
+    if (isEditingName) {
+      nameInputRef.current?.focus();
+      nameInputRef.current?.select();
+    }
+  }, [isEditingName]);
+
+  // useEffect(() => {
+  //   if (isEditingDeadline) {
+  //     deadlineInputRef.current?.focus();
+  //   }
+  // }, [isEditingName]);
+
+  useEffect(() => {
+    if (isEditingDeadline) {
+      deadlineInputRef.current?.focus();
+    }
+  }, [isEditingDeadline]);
+
+  const startEditName = useCallback(() => {
+    if (isEditingName || isEditingDeadline) return;
+    setDraftName(item.name);
+    setIsEditingName(true);
+  }, [item.name, isEditingName, isEditingDeadline]);
+
+  const startEditDeadline = useCallback(() => {
+    if (isEditingName || isEditingDeadline) return;
+    setDraftDeadline(item.deadline.toString());
+    setIsEditingDeadline(true);
+  }, [item.deadline, isEditingName, isEditingDeadline]);
+
+  const commitName = useCallback(() => {
+    const nextName = draftName.trim();
+    if (!nextName) {
+      setDraftName(item.name);
+      setIsEditingName(false);
+      return;
+    }
+    if (nextName !== item.name) {
+      onUpdateItem(item.id, { name: nextName });
+      setDraftName(nextName);
+    }
+    setIsEditingName(false);
+  }, [draftName, item.id, item.name, onUpdateItem]);
+
+  const commitDeadline = useCallback(() => {
+    const parsed = AppDate.parse(draftDeadline);
+    if (!parsed) {
+      setDraftDeadline(item.deadline.toString());
+      setIsEditingDeadline(false);
+      return;
+    }
+
+    const next = parsed.toString();
+    const prev = item.deadline.toString();
+    if (next !== prev) {
+      onUpdateItem(item.id, { deadline: parsed });
+      setDraftDeadline(next);
+    }
+
+    setIsEditingDeadline(false);
+  }, [draftDeadline, item.deadline, item.id, onUpdateItem]);
+
+  const guardSwitchFromName = useCallback(
+    (e) => {
+      if (!isEditingName) return;
+      e.preventDefault();
+      e.stopPropagation();
+      commitName();
+    },
+    [isEditingName, commitName],
+  );
+
+  const guardSwitchFromDeadline = useCallback(
+    (e) => {
+      if (!isEditingDeadline) return;
+      e.preventDefault();
+      e.stopPropagation();
+      commitDeadline();
+    },
+    [isEditingDeadline, commitDeadline],
+  );
 
   return (
-    <StyledListItem
-      $isFadingOut={item.isFadingOut}
-    >
+    <StyledListItem $isFadingOut={item.isFadingOut}>
       <StyledListItemColCheck>
         <CheckIconCol
           itemId={item.id}
@@ -19,11 +108,43 @@ export const ListRow = memo(function ListRow(props) {
         />
       </StyledListItemColCheck>
 
-      <StyledListItemColName>{item.name}</StyledListItemColName>
+      <StyledListItemColName
+        onClick={startEditName}
+        onMouseDownCapture={guardSwitchFromDeadline}
+      >
+        {isEditingName ? (
+          <input
+            ref={nameInputRef}
+            type="text"
+            value={draftName}
+            onChange={(e) => setDraftName(e.target.value)}
+            onBlur={commitName}
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          item.name
+        )}
+      </StyledListItemColName>
 
-      <StyledListItemColDeadline>
-        {item.deadline.toString()}
+      <StyledListItemColDeadline
+        onClick={startEditDeadline}
+        onMouseDownCapture={guardSwitchFromName}
+      >
+        {isEditingDeadline ? (
+          <input
+            ref={deadlineInputRef}
+            type="date"
+            value={draftDeadline}
+            onChange={(e) => setDraftDeadline(e.target.value)}
+            onBlur={commitDeadline}
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          item.deadline.toString()
+        )}
+        {/* {item.deadline.toString()} */}
       </StyledListItemColDeadline>
+
       <StyledListItemColTrash>
         <TrashIconCol itemId={item.id} onDeleteItem={onDeleteItem} />
       </StyledListItemColTrash>

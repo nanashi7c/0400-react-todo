@@ -8,6 +8,7 @@ export const List = (props) => {
     items,
     onDeleteItem,
     onToggleCompleted,
+    onUpdateItem,
     isShowCompleted,
     setIsShowCompleted,
   } = props;
@@ -33,6 +34,7 @@ export const List = (props) => {
             isShowCompleted={isShowCompleted}
             onDeleteItem={onDeleteItem}
             onToggleCompleted={onToggleCompleted}
+            onUpdateItem={onUpdateItem}
           />
         </li>
       </StyledListContainer>

@@ -2,7 +2,13 @@ import { useMemo } from "react";
 import { ListRow } from "./ListRow";
 
 export const ListItem = (props) => {
-  const { items, isShowCompleted, onDeleteItem, onToggleCompleted } = props;
+  const {
+    items,
+    isShowCompleted,
+    onDeleteItem,
+    onToggleCompleted,
+    onUpdateItem,
+  } = props;
 
   const sortedItems = useMemo(() => {
     const visibleItems = items.filter(
@@ -21,6 +27,7 @@ export const ListItem = (props) => {
           item={item}
           onDeleteItem={onDeleteItem}
           onToggleCompleted={onToggleCompleted}
+          onUpdateItem={onUpdateItem}
         />
       ))}
     </>
