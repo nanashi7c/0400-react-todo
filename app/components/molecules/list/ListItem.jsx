@@ -1,8 +1,28 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { ListRow } from "./ListRow";
 
 export const ListItem = (props) => {
-  const { items, isShowCompleted, onDeleteItem, onToggleCompleted } = props;
+  const {
+    items,
+    isShowCompleted,
+    onDeleteItem,
+    onToggleCompleted,
+    onUpdateItem,
+  } = props;
+
+  const suppressNextEditRef = useRef(false);
+
+  const blockNextEditStart = useCallback(() => {
+    suppressNextEditRef.current = true;
+    setTimeout(() => {
+      suppressNextEditRef.current = false;
+    }, 0);
+  }, []);
+
+  const shouldBlockEditStart = useCallback(
+    () => suppressNextEditRef.current,
+    [],
+  );
 
   const sortedItems = useMemo(() => {
     const visibleItems = items.filter(
@@ -21,6 +41,9 @@ export const ListItem = (props) => {
           item={item}
           onDeleteItem={onDeleteItem}
           onToggleCompleted={onToggleCompleted}
+          onUpdateItem={onUpdateItem}
+          blockNextEditStart={blockNextEditStart}
+          shouldBlockEditStart={shouldBlockEditStart}
         />
       ))}
     </>

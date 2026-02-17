@@ -66,33 +66,42 @@ export const Top = () => {
     setItems((prev) => prev.filter((item) => item.id !== id));
   }, []);
 
-  const handleToggleCompleted = useCallback((id, checked) => {
-    if (checked && !isShowCompleted) {
+  const handleToggleCompleted = useCallback(
+    (id, checked) => {
+      if (checked && !isShowCompleted) {
+        setItems((prev) =>
+          prev.map((item) =>
+            item.id === id
+              ? { ...item, isFadingOut: true, isCompleted: true }
+              : item,
+          ),
+        );
+        setTimeout(() => {
+          setItems((prev) =>
+            prev.map((item) =>
+              item.id === id ? { ...item, isFadingOut: false } : item,
+            ),
+          );
+        }, 800);
+        return;
+      }
+
       setItems((prev) =>
         prev.map((item) =>
           item.id === id
-            ? { ...item, isFadingOut: true, isCompleted: true }
+            ? { ...item, isCompleted: checked, isFadingOut: false }
             : item,
         ),
       );
-      setTimeout(() => {
-        setItems((prev) =>
-          prev.map((item) =>
-            item.id === id ? { ...item, isFadingOut: false } : item,
-          ),
-        );
-      }, 800);
-      return;
-    }
+    },
+    [isShowCompleted],
+  );
 
+  const handleUpdateItem = useCallback((id, patch) => {
     setItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, isCompleted: checked, isFadingOut: false }
-          : item,
-      ),
+      prev.map((item) => (item.id === id ? { ...item, ...patch } : item)),
     );
-  },[isShowCompleted]);
+  });
 
   return (
     <>
@@ -109,6 +118,7 @@ export const Top = () => {
           items={items}
           onDeleteItem={handleDeleteItem}
           onToggleCompleted={handleToggleCompleted}
+          onUpdateItem={handleUpdateItem}
           isShowCompleted={isShowCompleted}
           setIsShowCompleted={setIsShowCompleted}
         />

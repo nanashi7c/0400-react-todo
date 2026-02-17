@@ -1,16 +1,86 @@
 import { v } from "@/app/styles/variables";
-import { memo } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { CheckIconCol } from "./Icon/CheckIconCol";
 import { TrashIconCol } from "./Icon/TrashIconCol";
+import { AppDate } from "@/app/lib/AppDate";
 
 export const ListRow = memo(function ListRow(props) {
-  const { item, onDeleteItem, onToggleCompleted } = props;
+  const {
+    item,
+    onDeleteItem,
+    onToggleCompleted,
+    onUpdateItem,
+    blockNextEditStart,
+    shouldBlockEditStart,
+  } = props;
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingDeadline, setIsEditingDeadline] = useState(false);
+  const [draftName, setDraftName] = useState(item.name);
+  const [draftDeadline, setDraftDeadline] = useState(item.deadline.toString());
+  const nameInputRef = useRef(null);
+  const deadlineInputRef = useRef(null);
+
+  useEffect(() => {
+    if (isEditingName) {
+      nameInputRef.current?.focus();
+      nameInputRef.current?.select();
+    }
+  }, [isEditingName]);
+
+  useEffect(() => {
+    if (isEditingDeadline) {
+      deadlineInputRef.current?.focus();
+    }
+  }, [isEditingName]);
+
+  useEffect(() => {
+    if (isEditingDeadline) {
+      deadlineInputRef.current?.focus();
+    }
+  }, [isEditingDeadline]);
+
+  const startEditName = useCallback(() => {
+    if (isEditingName || isEditingDeadline || shouldBlockEditStart()) return;
+    setDraftName(item.name);
+    setIsEditingName(true);
+  }, [item.name, isEditingName, isEditingDeadline, shouldBlockEditStart]);
+
+  const startEditDeadline = useCallback(() => {
+    if (isEditingName || isEditingDeadline || shouldBlockEditStart()) return;
+    setDraftDeadline(item.deadline.toString());
+    setIsEditingDeadline(true);
+  }, [item.deadline, isEditingName, isEditingDeadline, shouldBlockEditStart]);
+
+  const commitName = useCallback(() => {
+    blockNextEditStart();
+    const nextName = draftName.trim();
+    if (!nextName) {
+      setDraftName(item.name);
+      setIsEditingName(false);
+      return;
+    }
+    if (nextName !== item.name) {
+      onUpdateItem(item.id, { name: nextName });
+      setDraftName(nextName);
+    }
+    setIsEditingName(false);
+  }, [blockNextEditStart, draftName, item.id, item.name, onUpdateItem]);
+
+  const commitDeadline = useCallback(() => {
+    blockNextEditStart();
+    const parsed = AppDate.parse(draftDeadline);
+    if (!parsed) {
+      setDraftDeadline(item.deadline.toString());
+      setIsEditingDeadline(false);
+      return;
+    }
+    setIsEditingDeadline(false);
+  }, [blockNextEditStart, draftDeadline, item.deadline, item.id, onUpdateItem]);
 
   return (
-    <StyledListItem
-      $isFadingOut={item.isFadingOut}
-    >
+    <StyledListItem $isFadingOut={item.isFadingOut}>
       <StyledListItemColCheck>
         <CheckIconCol
           itemId={item.id}
@@ -19,11 +89,37 @@ export const ListRow = memo(function ListRow(props) {
         />
       </StyledListItemColCheck>
 
-      <StyledListItemColName>{item.name}</StyledListItemColName>
+      <StyledListItemColName onClick={startEditName}>
+        {isEditingName ? (
+          <input
+            ref={nameInputRef}
+            type="text"
+            value={draftName}
+            onChange={(e) => setDraftName(e.target.value)}
+            onBlur={commitName}
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          item.name
+        )}
+      </StyledListItemColName>
 
-      <StyledListItemColDeadline>
-        {item.deadline.toString()}
+      <StyledListItemColDeadline onClick={startEditDeadline}>
+        {isEditingDeadline ? (
+          <input
+            ref={deadlineInputRef}
+            type="date"
+            value={draftDeadline}
+            onChange={(e) => setDraftDeadline(e.target.value)}
+            onBlur={commitDeadline}
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          item.deadline.toString()
+        )}
+        {/* {item.deadline.toString()} */}
       </StyledListItemColDeadline>
+
       <StyledListItemColTrash>
         <TrashIconCol itemId={item.id} onDeleteItem={onDeleteItem} />
       </StyledListItemColTrash>
