@@ -176,7 +176,7 @@ const StyledListItemColName = styled(StyledListItemCol)`
     padding: 8px;
     outline: none;
     &:focus-visible {
-      outline: 3px solid #666;
+      outline: 2px solid #000;
     }
   }
 `;
@@ -191,7 +191,7 @@ const StyledListItemColDeadline = styled(StyledListItemCol)`
     padding: 8px;
     outline: none;
     &:focus-visible {
-      outline: 3px solid #666;
+      outline: 3px solid #000;
     }
   }
 `;

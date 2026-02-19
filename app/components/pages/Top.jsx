@@ -105,8 +105,8 @@ export const Top = () => {
 
   return (
     <>
+      <Header />
       <StyledContent>
-        <Header />
         <Form
           name={name}
           setName={setName}
