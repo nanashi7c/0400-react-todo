@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { ListRow } from "./ListRow";
+import { Row } from "./Row";
 
-export const ListItem = (props) => {
+export const Item = (props) => {
   const {
     items,
     isShowCompleted,
@@ -22,7 +22,7 @@ export const ListItem = (props) => {
   return (
     <>
       {sortedItems.map((item) => (
-        <ListRow
+        <Row
           key={item.id}
           item={item}
           onDeleteItem={onDeleteItem}

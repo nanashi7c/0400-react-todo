@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { ListTtl } from "../molecules/list/ListTtl";
-import { ListHeader } from "../molecules/list/ListHeader";
-import { ListItem } from "../molecules/list/ListItem";
+import { Title } from "../molecules/list/Title";
+import { Header } from "../molecules/list/Header";
+import { Item } from "../molecules/list/Item";
 
 export const List = (props) => {
   const {
@@ -15,13 +15,13 @@ export const List = (props) => {
 
   return (
     <StyledList>
-      <ListHeader
+      <Header
         isShowCompleted={isShowCompleted}
         setIsShowCompleted={setIsShowCompleted}
       >
         完了タスクを表示
-      </ListHeader>
-      <ListTtl
+      </Header>
+      <Title
         checkbox={"\u00A0"}
         name="タスク"
         deadline="期限日"
@@ -29,7 +29,7 @@ export const List = (props) => {
       />
       <StyledListContainer>
         <li>
-          <ListItem
+          <Item
             items={items}
             isShowCompleted={isShowCompleted}
             onDeleteItem={onDeleteItem}

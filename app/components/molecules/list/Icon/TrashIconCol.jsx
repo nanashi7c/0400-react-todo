@@ -3,10 +3,10 @@ import { memo } from "react";
 import styled from "styled-components";
 
 export const TrashIconCol = memo((props) => {
-  const { itemId, onDeleteItem } = props;
+  const { itemId, onChange } = props;
 
   const handleClick = () => {
-    onDeleteItem(itemId);
+    onChange(itemId);
   };
   return <StyledTrash onClick={handleClick}></StyledTrash>;
 });

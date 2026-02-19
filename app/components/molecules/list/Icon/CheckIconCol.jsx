@@ -3,10 +3,10 @@ import { memo } from "react";
 import styled from "styled-components";
 
 export const CheckIconCol = memo((props) => {
-  const { itemId, checked, onToggleCompleted } = props;
+  const { itemId, checked, onChange } = props;
 
   const handleChange = (e) => {
-    onToggleCompleted(itemId, e.target.checked);
+    onChange(itemId, e.target.checked);
   };
 
   return (
