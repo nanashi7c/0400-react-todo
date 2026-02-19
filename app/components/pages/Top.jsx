@@ -32,7 +32,9 @@ export const Top = () => {
 
   const [isShowCompleted, setIsShowCompleted] = useState(false);
   const [name, setName] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const [deadline, setDeadline] = useState(
+    new AppDate().getDateInXMonth(1).toString(),
+  );
 
   const handleAddItem = useCallback(() => {
     const nameValue = name.trim();
@@ -58,7 +60,7 @@ export const Top = () => {
       },
     ]);
     setName("");
-    setDeadline("");
+    setDeadline(new AppDate().toString());
   }, [name, deadline]);
 
   const handleDeleteItem = useCallback((id) => {
