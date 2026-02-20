@@ -13,14 +13,12 @@ export const Item = (props) => {
 
   const sortedItems = useMemo(() => {
     const visibleItems = items.filter(
-      // (item) => isShowCompleted || !item.isCompleted || item.isFadingOut,
       (item) =>
         isShowCompleted || !item.isCompleted || fadingOutIds?.has(item.id),
     );
     return [...visibleItems].sort(
       (a, b) => a.deadline.getTime() - b.deadline.getTime(),
     );
-    // }, [items, isShowCompleted]);
   }, [items, isShowCompleted, fadingOutIds]);
 
   return (

@@ -1,5 +1,4 @@
 import { v } from "@/app/styles/variables";
-import { memo } from "react";
 import styled from "styled-components";
 
 export const Icon = (props) => {

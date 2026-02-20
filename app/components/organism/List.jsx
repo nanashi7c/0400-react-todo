@@ -15,7 +15,7 @@ export const List = (props) => {
   } = props;
 
   return (
-    <StyledList>
+    <>
       <Header
         isShowCompleted={isShowCompleted}
         onToggleShowCompleted={setIsShowCompleted}
@@ -40,13 +40,10 @@ export const List = (props) => {
           />
         </li>
       </StyledListContainer>
-    </StyledList>
+    </>
   );
 };
 
-const StyledList = styled.div`
-  // padding: 32px;
-`;
 const StyledListContainer = styled.div`
   list-style: none;
 `;
