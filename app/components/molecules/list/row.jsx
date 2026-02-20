@@ -2,7 +2,7 @@ import { v } from "@/app/styles/variables";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { AppDate } from "@/app/lib/AppDate";
-import { Icon } from "../../atoms/icon/icon";
+import { Icon } from "../../atoms/icon/baseIcon";
 
 export const Row = memo(function Row(props) {
   const { item, isFadingOut, onDelete, onToggleCompleted, onUpdateItem } =
