@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { CheckIconCol } from "./Icon/checkIconCol";
 import { TrashIconCol } from "./Icon/trashIconCol";
 import { AppDate } from "@/app/lib/AppDate";
+import { Icon } from "../../atoms/icon/icon";
 
 export const Row = memo(function Row(props) {
   const { item, isFadingOut, onDelete, onToggleCompleted, onUpdateItem } =
@@ -97,7 +98,13 @@ export const Row = memo(function Row(props) {
     // <StyledItem $isFadingOut={item.isFadingOut}>
     <StyledItem $isFadingOut={isFadingOut}>
       <StyledItemColCheck>
-        <CheckIconCol
+        {/* <CheckIconCol
+          itemId={item.id}
+          checked={item.isCompleted}
+          onChange={onToggleCompleted}
+        /> */}
+        <Icon
+          type="check"
           itemId={item.id}
           checked={item.isCompleted}
           onChange={onToggleCompleted}
@@ -142,7 +149,8 @@ export const Row = memo(function Row(props) {
       </StyledItemColDeadline>
 
       <StyledItemColTrash>
-        <TrashIconCol itemId={item.id} onChange={onDelete} />
+        {/* <TrashIconCol itemId={item.id} onChange={onDelete} /> */}
+        <Icon type="trash" itemId={item.id} onChange={onDelete} />
       </StyledItemColTrash>
     </StyledItem>
   );
