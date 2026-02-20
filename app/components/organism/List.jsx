@@ -6,7 +6,8 @@ import { Item } from "../molecules/list/Item";
 export const List = (props) => {
   const {
     items,
-    onDeleteItem,
+    fadingOutIds,
+    onDelete,
     onToggleCompleted,
     onUpdateItem,
     isShowCompleted,
@@ -17,7 +18,7 @@ export const List = (props) => {
     <StyledList>
       <Header
         isShowCompleted={isShowCompleted}
-        setIsShowCompleted={setIsShowCompleted}
+        onToggleShowCompleted={setIsShowCompleted}
       >
         完了タスクを表示
       </Header>
@@ -32,7 +33,8 @@ export const List = (props) => {
           <Item
             items={items}
             isShowCompleted={isShowCompleted}
-            onDeleteItem={onDeleteItem}
+            fadingOutIds={fadingOutIds}
+            onDelete={onDelete}
             onToggleCompleted={onToggleCompleted}
             onUpdateItem={onUpdateItem}
           />

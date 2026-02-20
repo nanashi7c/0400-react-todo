@@ -2,13 +2,13 @@ import styled from "styled-components";
 import { Checkbox } from "../../atoms/input/Checkbox";
 
 export const Header = (props) => {
-  const { children, isShowCompleted, setIsShowCompleted } = props;
+  const { children, isShowCompleted, onToggleShowCompleted } = props;
   return (
     <StyledHeader>
       <label>
         <Checkbox
           isShowCompleted={isShowCompleted}
-          setIsShowCompleted={setIsShowCompleted}
+          onToggleShowCompleted={onToggleShowCompleted}
         />
         {children}
       </label>

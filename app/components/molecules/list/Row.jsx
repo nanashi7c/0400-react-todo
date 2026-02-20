@@ -6,7 +6,8 @@ import { TrashIconCol } from "./Icon/TrashIconCol";
 import { AppDate } from "@/app/lib/AppDate";
 
 export const Row = memo(function Row(props) {
-  const { item, onDeleteItem, onToggleCompleted, onUpdateItem } = props;
+  const { item, isFadingOut, onDelete, onToggleCompleted, onUpdateItem } =
+    props;
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDeadline, setIsEditingDeadline] = useState(false);
@@ -93,7 +94,8 @@ export const Row = memo(function Row(props) {
   );
 
   return (
-    <StyledItem $isFadingOut={item.isFadingOut}>
+    // <StyledItem $isFadingOut={item.isFadingOut}>
+    <StyledItem $isFadingOut={isFadingOut}>
       <StyledItemColCheck>
         <CheckIconCol
           itemId={item.id}
@@ -140,7 +142,7 @@ export const Row = memo(function Row(props) {
       </StyledItemColDeadline>
 
       <StyledItemColTrash>
-        <TrashIconCol itemId={item.id} onChange={onDeleteItem} />
+        <TrashIconCol itemId={item.id} onChange={onDelete} />
       </StyledItemColTrash>
     </StyledItem>
   );

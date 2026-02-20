@@ -5,19 +5,23 @@ export const Item = (props) => {
   const {
     items,
     isShowCompleted,
-    onDeleteItem,
+    fadingOutIds,
+    onDelete,
     onToggleCompleted,
     onUpdateItem,
   } = props;
 
   const sortedItems = useMemo(() => {
     const visibleItems = items.filter(
-      (item) => isShowCompleted || !item.isCompleted || item.isFadingOut,
+      // (item) => isShowCompleted || !item.isCompleted || item.isFadingOut,
+      (item) =>
+        isShowCompleted || !item.isCompleted || fadingOutIds?.has(item.id),
     );
     return [...visibleItems].sort(
       (a, b) => a.deadline.getTime() - b.deadline.getTime(),
     );
-  }, [items, isShowCompleted]);
+    // }, [items, isShowCompleted]);
+  }, [items, isShowCompleted, fadingOutIds]);
 
   return (
     <>
@@ -25,7 +29,8 @@ export const Item = (props) => {
         <Row
           key={item.id}
           item={item}
-          onDeleteItem={onDeleteItem}
+          isFadingOut={!!fadingOutIds?.has(item.id)}
+          onDelete={onDelete}
           onToggleCompleted={onToggleCompleted}
           onUpdateItem={onUpdateItem}
         />

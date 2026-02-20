@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Checkbox = (props) => {
-  const { isShowCompleted, setIsShowCompleted } = props;
+  const { isShowCompleted, onToggleShowCompleted } = props;
 
   const handleChange = (e) => {
-    setIsShowCompleted(e.target.checked);
+    onToggleShowCompleted(e.target.checked);
   };
   return (
     <StyledCheckbox
