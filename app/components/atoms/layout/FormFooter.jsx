@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PrimaryButton } from "../button/PrimaryButton";
+import { PrimaryButton } from "../button/primaryButton";
 
 export const FormFooter = () => {
   return (

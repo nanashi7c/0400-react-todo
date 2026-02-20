@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Title } from "../molecules/list/Title";
-import { Header } from "../molecules/list/Header";
-import { Item } from "../molecules/list/Item";
+import { Title } from "../molecules/list/title";
+import { Header } from "../molecules/list/header";
+import { Item } from "../molecules/list/item";
 
 export const List = (props) => {
   const {

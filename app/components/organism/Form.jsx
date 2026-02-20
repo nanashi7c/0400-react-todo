@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { FormFooter } from "../atoms/layout/FormFooter";
-import { InputLabel } from "../atoms/input/InputLabel";
-import { InputField } from "../atoms/input/InputField";
+import { FormFooter } from "../atoms/layout/formFooter";
+import { InputLabel } from "../atoms/input/inputLabel";
+import { InputField } from "../atoms/input/inputField";
 import { v } from "@/app/styles/variables";
 
 export const Form = (props) => {

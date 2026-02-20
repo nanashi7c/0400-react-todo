@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Header } from "../atoms/layout/Header";
-import { Form } from "../organism/Form";
-import { List } from "../organism/List";
+import { Header } from "../atoms/layout/header";
+import { Form } from "../organism/form";
+import { List } from "../organism/list";
 import { useCallback, useState } from "react";
 import { AppDate } from "@/app/lib/AppDate";
 

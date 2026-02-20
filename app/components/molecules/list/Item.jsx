@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Row } from "./Row";
+import { Row } from "./row";
 
 export const Item = (props) => {
   const {

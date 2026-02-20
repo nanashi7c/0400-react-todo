@@ -1,8 +1,8 @@
 import { v } from "@/app/styles/variables";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { CheckIconCol } from "./Icon/CheckIconCol";
-import { TrashIconCol } from "./Icon/TrashIconCol";
+import { CheckIconCol } from "./Icon/checkIconCol";
+import { TrashIconCol } from "./Icon/trashIconCol";
 import { AppDate } from "@/app/lib/AppDate";
 
 export const Row = memo(function Row(props) {

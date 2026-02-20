@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Checkbox } from "../../atoms/input/Checkbox";
+import { Checkbox } from "../../atoms/input/checkbox";
 
 export const Header = (props) => {
   const { children, isShowCompleted, onToggleShowCompleted } = props;
