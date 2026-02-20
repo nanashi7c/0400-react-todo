@@ -1,12 +1,14 @@
 import { v } from "@/app/styles/variables";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { CheckIconCol } from "./Icon/CheckIconCol";
-import { TrashIconCol } from "./Icon/TrashIconCol";
+import { CheckIconCol } from "./Icon/checkIconCol";
+import { TrashIconCol } from "./Icon/trashIconCol";
 import { AppDate } from "@/app/lib/AppDate";
+import { Icon } from "../../atoms/icon/icon";
 
-export const ListRow = memo(function ListRow(props) {
-  const { item, onDeleteItem, onToggleCompleted, onUpdateItem } = props;
+export const Row = memo(function Row(props) {
+  const { item, isFadingOut, onDelete, onToggleCompleted, onUpdateItem } =
+    props;
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDeadline, setIsEditingDeadline] = useState(false);
@@ -93,16 +95,23 @@ export const ListRow = memo(function ListRow(props) {
   );
 
   return (
-    <StyledListItem $isFadingOut={item.isFadingOut}>
-      <StyledListItemColCheck>
-        <CheckIconCol
+    // <StyledItem $isFadingOut={item.isFadingOut}>
+    <StyledItem $isFadingOut={isFadingOut}>
+      <StyledItemColCheck>
+        {/* <CheckIconCol
           itemId={item.id}
           checked={item.isCompleted}
-          onToggleCompleted={onToggleCompleted}
+          onChange={onToggleCompleted}
+        /> */}
+        <Icon
+          type="check"
+          itemId={item.id}
+          checked={item.isCompleted}
+          onChange={onToggleCompleted}
         />
-      </StyledListItemColCheck>
+      </StyledItemColCheck>
 
-      <StyledListItemColName
+      <StyledItemColName
         onClick={startEditName}
         onMouseDownCapture={guardSwitchFromDeadline}
       >
@@ -118,9 +127,9 @@ export const ListRow = memo(function ListRow(props) {
         ) : (
           item.name
         )}
-      </StyledListItemColName>
+      </StyledItemColName>
 
-      <StyledListItemColDeadline
+      <StyledItemColDeadline
         onClick={startEditDeadline}
         onMouseDownCapture={guardSwitchFromName}
       >
@@ -137,16 +146,17 @@ export const ListRow = memo(function ListRow(props) {
           item.deadline.toString()
         )}
         {/* {item.deadline.toString()} */}
-      </StyledListItemColDeadline>
+      </StyledItemColDeadline>
 
-      <StyledListItemColTrash>
-        <TrashIconCol itemId={item.id} onDeleteItem={onDeleteItem} />
-      </StyledListItemColTrash>
-    </StyledListItem>
+      <StyledItemColTrash>
+        {/* <TrashIconCol itemId={item.id} onChange={onDelete} /> */}
+        <Icon type="trash" itemId={item.id} onChange={onDelete} />
+      </StyledItemColTrash>
+    </StyledItem>
   );
 });
 
-const StyledListItem = styled.div`
+const StyledItem = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
@@ -154,17 +164,17 @@ const StyledListItem = styled.div`
   transition: opacity 0.8s ease;
   opacity: ${(props) => (props.$isFadingOut ? 0 : 1)};
 `;
-const StyledListItemCol = styled.div`
+const StyledItemCol = styled.div`
   box-sizing: border-box;
   flex: 1;
   border-right: 1px solid ${v.borderColor};
   padding: 16px;
 `;
-const StyledListItemColCheck = styled(StyledListItemCol)`
+const StyledItemColCheck = styled(StyledItemCol)`
   display: flex;
   justify-content: center;
 `;
-const StyledListItemColName = styled(StyledListItemCol)`
+const StyledItemColName = styled(StyledItemCol)`
   flex: 4;
   cursor: pointer;
   input {
@@ -180,7 +190,7 @@ const StyledListItemColName = styled(StyledListItemCol)`
     }
   }
 `;
-const StyledListItemColDeadline = styled(StyledListItemCol)`
+const StyledItemColDeadline = styled(StyledItemCol)`
   cursor: pointer;
   input {
     width: 100%;
@@ -195,7 +205,7 @@ const StyledListItemColDeadline = styled(StyledListItemCol)`
     }
   }
 `;
-const StyledListItemColTrash = styled(StyledListItemCol)`
+const StyledItemColTrash = styled(StyledItemCol)`
   font-size: 12px;
   display: flex;
   justify-content: center;

@@ -2,20 +2,33 @@ import { v } from "@/app/styles/variables";
 import { memo } from "react";
 import styled from "styled-components";
 
-export const CheckIconCol = memo((props) => {
-  const { itemId, checked, onChange } = props;
+export const Icon = (props) => {
+  const { type, itemId, checked, onChange } = props;
 
   const handleChange = (e) => {
     onChange(itemId, e.target.checked);
   };
 
-  return (
-    <StyledLabel>
-      <StyledInput type="checkbox" checked={checked} onChange={handleChange} />
-      <StyledIcon></StyledIcon>
-    </StyledLabel>
-  );
-});
+  const handleClick = () => {
+    onChange(itemId);
+  };
+
+  if (type === "check") {
+    return (
+      <StyledLabel>
+        <StyledInput
+          type="checkbox"
+          checked={checked}
+          onChange={handleChange}
+        />
+        <StyledIcon></StyledIcon>
+      </StyledLabel>
+    );
+  }
+  if (type === "trash") {
+    return <StyledTrash onClick={handleClick}></StyledTrash>;
+  }
+};
 
 const StyledIcon = styled.i.attrs({
   className: "icon--check fa-solid fa-check",
@@ -64,4 +77,12 @@ const StyledInput = styled.input`
     opacity: 1;
     transform: scale(1);
   }
+`;
+
+const StyledTrash = styled.i.attrs({
+  className: "fa-solid fa-trash",
+  "aria-hidden": "true",
+})`
+  cursor: pointer;
+  color: ${v.fontColorWeak};
 `;
